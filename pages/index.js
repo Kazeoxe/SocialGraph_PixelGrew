@@ -4,7 +4,6 @@ import GraphComponent from "./components/GraphDisplayer";
 import graphData  from "../assets/scripts/data/nodes-edges_data.json";
 
 const Index = () => {
-  console.log(graphData);
   return (
     <div>
       <Head>

@@ -1,28 +1,94 @@
-
-#network-container{
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#network-container {
   height: 100vh;
 }
 /* LEGENDBOX CSS*/
+
 .Legend {
+  display: flex;
   margin: 16px;
   background-color: azure;
   position: absolute;
   z-index: 999;
 }
+
 .Legend p {
-  padding: 0;
-  margin: 12px;
+  margin: 6px 0 ;
+}
+ 
+.legendWrapper {
+  display: flex;
+  transition: opacity 0.2s ease-out, max-width 0.7s ease-out,
+    max-height 1.5s ease-out;
+  opacity: 1;
+  max-height: 200px;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.legendWrapper.hidden {
+  transition: opacity 0.2s ease-out, max-width 0.7s ease-out,
+    max-height 0.3s ease-out;
+  opacity: 0;
+  max-height: 0;
+  max-width: 0;
+}
+.legendInfo{
+  margin: 6px 0 10px 10px;
+}
+.legendInfoItem p {
+ font-size: small;
+}
+.legendInfoItem-symbol{
+display: flex;
+align-items: center;
+margin: 0 0 0 10px;
+}
+.legend-selectedPlayer {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #2b7ce9;
+  background-color: #d2e5ff;
+}
+.legend-player {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #fde768;
+  background-color: #fef3b3;
+}
+.legend-redplayer {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #ff2525;
+  background-color: #ff2525;
+}
+.legend-bluelink {
+  width: 35px;
+  height: 1px;
+  border: 2px solid #10c7d1;
+}
+.legend-redlink {
+  width: 35px;
+  height: 1px;
+  border: 2px solid #ff2525;
 }
 /* END LEGENDBOX CSS*/
 
 /* LOADER CSS*/
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
 .loadder * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Montserrat;
 }
 
 .loadder {
@@ -37,8 +103,8 @@
   position: absolute;
   bottom: 0px;
 }
-.relative-pos{
-    position: relative;
+.relative-pos {
+  position: relative;
 }
 .loadder div {
   display: flex;

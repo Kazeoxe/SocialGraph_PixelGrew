@@ -6,6 +6,8 @@ import Legend from "./LegendBox";
 const GraphDisplayer = ({ graphData }) => {
   const [network, setNetwork] = useState(null);
   const [graphLoaded, setGraphLoaded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (!network && graphData) {
       const container = document.getElementById("network-container");
@@ -113,6 +115,54 @@ const GraphDisplayer = ({ graphData }) => {
     }
   }, [graphData, network]);
 
+  const handleSearch = () => {
+    if (network && searchTerm) {
+      const nodes = graphData.nodes.filter((node) =>
+        node.label.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      if (nodes.length) {
+        const nodeId = nodes[0].id;
+        // DUPE :Reset the colors of the edges
+        const resetEdgesArray = graphData.edges.map((edge) => ({
+          id: edge.id,
+          color: "#fde768",
+        }));
+
+        network.body.data.edges.update(resetEdgesArray);
+
+        const connectedEdges = network.getConnectedEdges(nodeId);
+        const updateEdgesArray = [];
+        // DUPE :Update the colors of the edges connected to the selected node
+        connectedEdges.forEach((edgeId) => {
+          const edge = network.body.data.edges.get(edgeId);
+          if (edge.from === nodeId) {
+            updateEdgesArray.push({
+              id: edgeId,
+              color: "blue",
+            });
+          }
+          if (edge.to === nodeId) {
+            updateEdgesArray.push({
+              id: edgeId,
+              color: "red",
+            });
+          }
+        });
+
+        network.body.data.edges.update(updateEdgesArray);
+
+        network.focus(nodeId, {
+          scale: 1,
+          animation: {
+            duration: 1000,
+            easingFunction: "easeInOutQuad",
+          },
+        });
+      }
+    }
+  };
+
   //Vercel build will crash without this check
   if (!graphData || !graphData.nodes || !graphData.edges) {
     return null;
@@ -127,7 +177,13 @@ const GraphDisplayer = ({ graphData }) => {
           ...(graphLoaded ? { display: "block" } : { display: "none" }),
         }}
       >
-        <Legend graphData={graphData} />
+        <Legend
+          graphData={graphData}
+          handleSearch={handleSearch}
+          setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
+        />
+
         <div id="network-container"></div>
       </div>
     </div>

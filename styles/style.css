@@ -11,15 +11,16 @@ body {
 /* LEGENDBOX CSS*/
 
 .Legend {
-  display: flex;
+  
   margin: 16px;
-  background-color: azure;
+  background-color: #182424;
   position: absolute;
   z-index: 999;
 }
 
 .Legend p {
   margin: 6px 0 ;
+  color: white;
 }
  
 .legendWrapper {
@@ -29,15 +30,17 @@ body {
   opacity: 1;
   max-height: 200px;
   max-width: 400px;
+  width: 100%;
   overflow: hidden;
 }
 
 .legendWrapper.hidden {
-  transition: opacity 0.2s ease-out, max-width 0.7s ease-out,
-    max-height 0.3s ease-out;
+  transition: opacity 0.4s ease-out, max-width 0.7s ease-out,
+    max-height 0.4s ease-out;
   opacity: 0;
   max-height: 0;
   max-width: 0;
+  margin: 0!important;
 }
 .legendInfo{
   margin: 6px 0 10px 10px;

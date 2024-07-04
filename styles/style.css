@@ -1,3 +1,21 @@
+
+#network-container{
+  height: 100vh;
+}
+/* LEGENDBOX CSS*/
+.Legend {
+  margin: 16px;
+  background-color: azure;
+  position: absolute;
+  z-index: 999;
+}
+.Legend p {
+  padding: 0;
+  margin: 12px;
+}
+/* END LEGENDBOX CSS*/
+
+/* LOADER CSS*/
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
 .loadder * {
@@ -68,3 +86,4 @@
     stroke-dashoffset: 400;
   }
 }
+/* END LOADER CSS*/

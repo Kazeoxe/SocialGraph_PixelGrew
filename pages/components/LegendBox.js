@@ -8,7 +8,9 @@ const Legend = ({ graphData }) => {
   const toggleLegend = () => {
     setShowLegend(!showLegend);
   };
-
+ if (!graphData || !graphData.nodes || !graphData.edges) {
+   return null; 
+  }
   return (
     <div className="Legend">
       <div className={`legendWrapper ${!showLegend ? "hidden" : ""}`}>

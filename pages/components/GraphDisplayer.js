@@ -115,7 +115,9 @@ const GraphDisplayer = ({ graphData }) => {
       setNetwork(networkInstance);
     }
   }, [graphData, network]);
-
+  if (!graphData || !graphData.nodes || !graphData.edges) {
+    return null; 
+  }
   return (
     <div>
       {graphLoaded ? null : <Loader />}

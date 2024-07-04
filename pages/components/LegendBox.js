@@ -8,8 +8,10 @@ const Legend = ({ graphData }) => {
   const toggleLegend = () => {
     setShowLegend(!showLegend);
   };
- if (!graphData || !graphData.nodes || !graphData.edges) {
-   return null; 
+  
+  //Vercel build will crash without this check
+  if (!graphData || !graphData.nodes || !graphData.edges) {
+    return null;
   }
   return (
     <div className="Legend">
@@ -27,11 +29,11 @@ const Legend = ({ graphData }) => {
               </div>
             </div>
             <div>
-              <p>Blue is trusted by Red</p>
+              <p>Blue is trusted by Yellow</p>
               <div className="legendInfoItem-symbol">
                 <div className="legend-selectedPlayer" />
                 <div className="legend-redlink" />
-                <div className="legend-redplayer" />
+                <div className="legend-player" />
               </div>
             </div>
           </div>

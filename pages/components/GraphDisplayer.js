@@ -6,7 +6,6 @@ import Legend from "./LegendBox";
 const GraphDisplayer = ({ graphData }) => {
   const [network, setNetwork] = useState(null);
   const [graphLoaded, setGraphLoaded] = useState(false);
-
   useEffect(() => {
     if (!network && graphData) {
       const container = document.getElementById("network-container");
@@ -44,70 +43,68 @@ const GraphDisplayer = ({ graphData }) => {
           randomSeed: 191006,
         },
       };
-
       const networkInstance = new Network(container, graphData, options);
 
-      // Gestionnaire d'événement de clic
       networkInstance.on("click", (event) => {
         const { nodes } = event;
-        const updateNodesArray = [];
-
         if (nodes.length) {
-          // Si un nœud est cliqué
-          const selectedNodeId = nodes[0];
-          const connectedEdges =
-            networkInstance.getConnectedEdges(selectedNodeId);
+          let selectedNodeId = null;
+          const updateNodesArray = [];
+          const updateEdgesArray = [];
 
-          connectedEdges.forEach((edgeId) => {
-            const edge = networkInstance.body.data.edges.get(edgeId);
-            if (edge.to === selectedNodeId) {
-              updateNodesArray.push({
-                id: edge.from,
-                color: {
-                  background: "#ff2525",
-                  border: "#ff2525",
-                },
-              });
-            }
-            //  else if (edge.from === selectedNodeId) {
-            //   updateNodesArray.push({
-            //     id: edge.to,
-            //     color: {
-            //       background: '#fef3b3',
-            //       border: 'purple',
-            //     },
-            //   });
-            // }
-          });
+          if (nodes[0] !== selectedNodeId) {
+            selectedNodeId = nodes[0];
+            const resetEdgesArray = graphData.edges.map((edge) => ({
+              id: edge.id,
+              color: "#fde768",
+            }));
 
-          const selectedNodes = graphData.nodes.filter((node) =>
-            nodes.includes(node.id)
-          );
-          const updatedNodes = selectedNodes.map((node) => ({
-            id: node.id,
-            color: {
-              border: (node.from = "#10c7d1"),
-              bold: true,
-            },
-          }));
-          networkInstance.body.data.nodes.update(updatedNodes);
-        } else {
-          // Si on clique dans l'espace vide
-          graphData.nodes.forEach((node) => {
-            updateNodesArray.push({
-              id: node.id,
-              color: {
-                background: "#fef3b3",
-                border: "#fde768",
-              },
+            networkInstance.body.data.edges.update(resetEdgesArray);
+
+            const connectedEdges =
+              networkInstance.getConnectedEdges(selectedNodeId);
+
+            // Update the colors of the edges connected to the selected node
+            connectedEdges.forEach((edgeId) => {
+              const edge = networkInstance.body.data.edges.get(edgeId);
+              if (edge.from === selectedNodeId) {
+                updateEdgesArray.push({
+                  id: edgeId,
+                  color: "blue",
+                });
+              }
+              if (edge.to === selectedNodeId) {
+                updateEdgesArray.push({
+                  id: edgeId,
+                  color: "red",
+                });
+              }
             });
-          });
-        }
 
-        networkInstance.body.data.nodes.update(updateNodesArray);
+            networkInstance.body.data.edges.update(updateEdgesArray);
+          }
+          networkInstance.body.data.nodes.update(updateNodesArray);
+          // Reset colors when clicking on an empty space
+        } else if (!nodes.length) {
+          // const resetNodesArray = graphData.nodes.map((node) => ({
+          //   id: node.id,
+          //   color: {
+          //     background: "#fef3b3",
+          //     border: "#fde768",
+          //   },
+          // }));
+
+          // networkInstance.body.data.nodes.update(resetNodesArray);
+
+          const resetEdgesArray = graphData.edges.map((edge) => ({
+            id: edge.id,
+            color: "#fde768",
+          }));
+
+          networkInstance.body.data.edges.update(resetEdgesArray);
+        }
       });
 
-      // Définir l'état de chargement à true une fois que le graphique est prêt
       networkInstance.once("stabilizationIterationsDone", () => {
         setGraphLoaded(true);
       });
@@ -115,9 +112,12 @@ const GraphDisplayer = ({ graphData }) => {
       setNetwork(networkInstance);
     }
   }, [graphData, network]);
+
+  //Vercel build will crash without this check
   if (!graphData || !graphData.nodes || !graphData.edges) {
-    return null; 
+    return null;
   }
+
   return (
     <div>
       {graphLoaded ? null : <Loader />}

@@ -90,7 +90,7 @@ def fetch_and_log_Chunksdata(data, timestamp):
     output_file = f"players_info.json"
 
     # Enregistrer les résultats dans un nouveau fichier JSON
-    with open("src/scripts/data/" + output_file, 'w') as file:
+    with open("assets/scripts/data/" + output_file, 'w') as file:
         json.dump(formatted_data, file, indent=2)
 
     print(f"Les données ont été formatées et enregistrées dans '{output_file}'.")

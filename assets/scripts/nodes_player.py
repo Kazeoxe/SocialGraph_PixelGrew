@@ -1,7 +1,7 @@
 import json
 import math
 
-with open('src/scripts/data/players_info.json', 'r') as file:
+with open('assets/scripts/data/players_info.json', 'r') as file:
     data = json.load(file)
 
 nodes = []
@@ -62,7 +62,7 @@ graph_data = {
 }
 
 # Écrire les données du graphe dans un fichier JSON
-with open('src/scripts/data/nodes-edges_data.json', 'w') as file:
+with open('assets/scripts/data/nodes-edges_data.json', 'w') as file:
     json.dump(graph_data, file, indent=2)
 
 print("Les données du graphe ont été enregistrées dans 'nodes-edges_data.json'.")
